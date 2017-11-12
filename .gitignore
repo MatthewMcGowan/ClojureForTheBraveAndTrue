@@ -14,3 +14,6 @@ pom.xml.asc
 .lein
 .DS_Store
 .idea
+*.iml
+*.iws
+target/
