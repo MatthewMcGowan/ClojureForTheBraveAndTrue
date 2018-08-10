@@ -46,11 +46,23 @@
 (map :name (glitter-filter 3 (mapify (parse (slurp filename)))))
 
 ;; 2
-(defn append
-  [suspect-list name glitter-index]
-  (let [suspect {:name name :glitter-index glitter-index}]
-     (conj suspect-list suspect)))
+(defn append [suspect-list suspect] (conj suspect-list suspect))
 
 ;; 3
+(def example-validations {:name identity :glitter-index identity})
+(def example-good-record {:name "name" :glitter-index 5})
+(def example-bad-record {:name "name" :something-else "hello"})
+(defn validate
+  [validations record]
+  (every? identity
+         (map
+           #((% validations) (% record))
+           (keys validations))))
 
-
+;; 4
+(defn csvify
+  [records]
+  (clojure.string/join "\n"
+       (map
+         #(clojure.string/join "," (map str (vals %)))
+         records)))
